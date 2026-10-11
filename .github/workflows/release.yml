@@ -1,0 +1,100 @@
+# Builds the ready-made downloads whenever a release is published on GitHub:
+#   ThermoSolveDP-macOS-AppleSilicon.zip   ThermoSolveDP.app for M1-M4 Macs
+#   ThermoSolveDP-macOS-Intel.zip          ThermoSolveDP.app for Intel Macs
+#   ThermoSolveDP-Windows.zip              ThermoSolveDP folder with ThermoSolveDP.exe
+#   ThermoSolveDP-source.zip               the Python source package (run_mac.command / run_windows.bat)
+# Each app is self-tested (all built-in examples must solve) before it is uploaded.
+name: Build release downloads
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:        # "Run workflow" button: builds and keeps the files as workflow artifacts
+
+permissions:
+  contents: write
+
+jobs:
+  apps:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS (Apple Silicon)
+            os: macos-latest
+            asset: ThermoSolveDP-macOS-AppleSilicon.zip
+          - name: macOS (Intel)
+            os: macos-15-intel
+            asset: ThermoSolveDP-macOS-Intel.zip
+          - name: Windows
+            os: windows-latest
+            asset: ThermoSolveDP-Windows.zip
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt "pyinstaller>=6.6"
+      - name: Build the app
+        run: python -m PyInstaller --noconfirm --clean --log-level WARN packaging/ThermoSolveDP.spec
+
+      - name: Self-test and package (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          dist/ThermoSolveDP.app/Contents/MacOS/ThermoSolveDP --selftest
+          ditto -c -k --sequesterRsrc --keepParent dist/ThermoSolveDP.app "${{ matrix.asset }}"
+
+      - name: Self-test and package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath "dist\ThermoSolveDP\ThermoSolveDP.exe" -ArgumentList "--selftest" -Wait -PassThru
+          Get-Content "dist\ThermoSolveDP\selftest.log"
+          Remove-Item "dist\ThermoSolveDP\selftest.log"
+          if ($p.ExitCode -ne 0) { throw "Self-test failed (exit code $($p.ExitCode))" }
+          Compress-Archive -Path "dist\ThermoSolveDP" -DestinationPath "${{ matrix.asset }}"
+
+      - name: Keep the file with this workflow run
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: ${{ matrix.asset }}
+          retention-days: 14
+
+      - name: Attach to the release
+        if: github.event_name == 'release'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" "${{ matrix.asset }}" --clobber
+
+  source:
+    name: Source package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ThermoSolveDP
+      - name: Make ThermoSolveDP-source.zip
+        run: |
+          rm -rf ThermoSolveDP/.git ThermoSolveDP/.github
+          chmod +x ThermoSolveDP/*.command
+          zip -qr ThermoSolveDP-source.zip ThermoSolveDP
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ThermoSolveDP-source.zip
+          path: ThermoSolveDP-source.zip
+          retention-days: 14
+      - name: Attach to the release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" ThermoSolveDP-source.zip --clobber --repo "${{ github.repository }}"

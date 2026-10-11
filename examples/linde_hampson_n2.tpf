@@ -1,0 +1,356 @@
+{
+  "app": "ThermoSolveDP",
+  "version": 1,
+  "settings": {
+    "max_iter": 200,
+    "tol": 1e-06,
+    "method": "Broyden",
+    "property_method": "HEOS",
+    "kij": {}
+  },
+  "units": {},
+  "next_id": 22,
+  "blocks": [
+    {
+      "uid": "b1",
+      "type": "feed",
+      "name": "Make-up N2",
+      "values": {
+        "fluid": "Nitrogen",
+        "spec": "Temperature & pressure",
+        "T": 298.15,
+        "P": 100000.0,
+        "Q": 1.0,
+        "m": 0.1
+      },
+      "layout": {
+        "x": 0,
+        "y": 105.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b2",
+      "type": "mixer",
+      "name": "Mixer",
+      "values": {
+        "n_in": 2,
+        "spec": "Lowest inlet pressure",
+        "P_out": 101325.0
+      },
+      "layout": {
+        "x": 120,
+        "y": 102.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b3",
+      "type": "compressor",
+      "name": "Stage 1",
+      "values": {
+        "spec": "Outlet pressure",
+        "P_out": 1400000.0,
+        "ratio": 3.0,
+        "eta": 0.75
+      },
+      "layout": {
+        "x": 240,
+        "y": 94.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b4",
+      "type": "cooler",
+      "name": "Intercooler",
+      "values": {
+        "spec": "Outlet temperature",
+        "T_out": 298.15,
+        "duty": 100000.0,
+        "Q_out": 0.0,
+        "dT": 10.0,
+        "dP": 0.0
+      },
+      "layout": {
+        "x": 380,
+        "y": 94.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b5",
+      "type": "compressor",
+      "name": "Stage 2",
+      "values": {
+        "spec": "Outlet pressure",
+        "P_out": 20000000.0,
+        "ratio": 3.0,
+        "eta": 0.75
+      },
+      "layout": {
+        "x": 510,
+        "y": 94.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b6",
+      "type": "cooler",
+      "name": "Aftercooler",
+      "values": {
+        "spec": "Outlet temperature",
+        "T_out": 298.15,
+        "duty": 100000.0,
+        "Q_out": 0.0,
+        "dT": 10.0,
+        "dP": 0.0
+      },
+      "layout": {
+        "x": 650,
+        "y": 94.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b7",
+      "type": "hx",
+      "name": "Recuperator",
+      "values": {
+        "spec": "Minimum approach temperature",
+        "dTmin": 3.0,
+        "T_hot_out": 313.15,
+        "T_cold_out": 333.15,
+        "duty": 100000.0,
+        "UA": 10000.0,
+        "dP_hot": 0.0,
+        "dP_cold": 0.0,
+        "n_seg": 30
+      },
+      "layout": {
+        "x": 790,
+        "y": 102.08,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b8",
+      "type": "valve",
+      "name": "JT valve",
+      "values": {
+        "spec": "Outlet pressure",
+        "P_out": 100000.0,
+        "dP": 100000.0
+      },
+      "layout": {
+        "x": 960,
+        "y": 105.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b9",
+      "type": "flash",
+      "name": "Separator",
+      "values": {
+        "spec": "Adiabatic",
+        "T": 298.15,
+        "dP": 0.0
+      },
+      "layout": {
+        "x": 1090,
+        "y": 78.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b10",
+      "type": "product",
+      "name": "Liquid N2",
+      "values": {},
+      "layout": {
+        "x": 1200,
+        "y": 195.0,
+        "flip": false
+      }
+    }
+  ],
+  "streams": [
+    {
+      "uid": "s11",
+      "name": "1",
+      "src": "b1",
+      "src_port": "out",
+      "dst": "b2",
+      "dst_port": "in1",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s12",
+      "name": "2",
+      "src": "b2",
+      "src_port": "out",
+      "dst": "b3",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s13",
+      "name": "3",
+      "src": "b3",
+      "src_port": "out",
+      "dst": "b4",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s14",
+      "name": "4",
+      "src": "b4",
+      "src_port": "out",
+      "dst": "b5",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s15",
+      "name": "5",
+      "src": "b5",
+      "src_port": "out",
+      "dst": "b6",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s16",
+      "name": "6",
+      "src": "b6",
+      "src_port": "out",
+      "dst": "b7",
+      "dst_port": "hot_in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s17",
+      "name": "7",
+      "src": "b7",
+      "src_port": "hot_out",
+      "dst": "b8",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s18",
+      "name": "8",
+      "src": "b8",
+      "src_port": "out",
+      "dst": "b9",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s19",
+      "name": "LIN",
+      "src": "b9",
+      "src_port": "liquid",
+      "dst": "b10",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s20",
+      "name": "9",
+      "src": "b9",
+      "src_port": "vapor",
+      "dst": "b7",
+      "dst_port": "cold_in",
+      "tear": false,
+      "estimate": {
+        "enabled": true,
+        "fluid": "Nitrogen",
+        "T": 83.14999999999998,
+        "P": 100000.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s21",
+      "name": "10",
+      "src": "b7",
+      "src_port": "cold_out",
+      "dst": "b2",
+      "dst_port": "in2",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    }
+  ]
+}

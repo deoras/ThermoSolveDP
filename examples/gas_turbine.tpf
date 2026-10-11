@@ -1,0 +1,196 @@
+{
+  "app": "ThermoSolveDP",
+  "version": 1,
+  "settings": {
+    "max_iter": 200,
+    "tol": 1e-06,
+    "method": "Broyden",
+    "property_method": "HEOS",
+    "kij": {}
+  },
+  "units": {},
+  "next_id": 12,
+  "blocks": [
+    {
+      "uid": "b1",
+      "type": "feed",
+      "name": "Ambient air",
+      "values": {
+        "fluid": "Air",
+        "spec": "Temperature & pressure",
+        "T": 288.15,
+        "P": 101325.0,
+        "Q": 1.0,
+        "m": 20.0
+      },
+      "layout": {
+        "x": 0,
+        "y": 105.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b2",
+      "type": "compressor",
+      "name": "Compressor",
+      "values": {
+        "spec": "Pressure ratio",
+        "P_out": 1000000.0,
+        "ratio": 15.0,
+        "eta": 0.86
+      },
+      "layout": {
+        "x": 120,
+        "y": 94.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b3",
+      "type": "feed",
+      "name": "Natural gas (CH4)",
+      "values": {
+        "fluid": "Methane",
+        "spec": "Temperature & pressure",
+        "T": 298.15,
+        "P": 2000000.0,
+        "Q": 1.0,
+        "m": 0.42
+      },
+      "layout": {
+        "x": 150,
+        "y": 205.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b4",
+      "type": "reactor",
+      "name": "Combustor",
+      "values": {
+        "n_in": 2,
+        "mode": "Combustion (complete)",
+        "conversion": 1.0,
+        "reactions": "CH4 + 2 O2 -> CO2 + 2 H2O ; X=1 ; key=CH4",
+        "energy": "Adiabatic",
+        "T_out": 1473.15,
+        "duty": 0.0,
+        "dP": 50000.0
+      },
+      "layout": {
+        "x": 290,
+        "y": 98.66666666666667,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b5",
+      "type": "expander",
+      "name": "Turbine",
+      "values": {
+        "spec": "Outlet pressure",
+        "P_out": 105000.0,
+        "ratio": 5.0,
+        "eta": 0.88
+      },
+      "layout": {
+        "x": 440,
+        "y": 94.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b6",
+      "type": "product",
+      "name": "Exhaust",
+      "values": {},
+      "layout": {
+        "x": 590,
+        "y": 105.0,
+        "flip": false
+      }
+    }
+  ],
+  "streams": [
+    {
+      "uid": "s7",
+      "name": "1",
+      "src": "b1",
+      "src_port": "out",
+      "dst": "b2",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s8",
+      "name": "2",
+      "src": "b2",
+      "src_port": "out",
+      "dst": "b4",
+      "dst_port": "in1",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s9",
+      "name": "F",
+      "src": "b3",
+      "src_port": "out",
+      "dst": "b4",
+      "dst_port": "in2",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s10",
+      "name": "3",
+      "src": "b4",
+      "src_port": "out",
+      "dst": "b5",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s11",
+      "name": "4",
+      "src": "b5",
+      "src_port": "out",
+      "dst": "b6",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    }
+  ]
+}

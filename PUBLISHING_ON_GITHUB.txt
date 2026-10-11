@@ -1,0 +1,213 @@
+===============================================================================
+ Publishing ThermoSolveDP on GitHub (free) - step by step
+===============================================================================
+
+What you get, all free:
+  - A public project page with the code:   https://github.com/USERNAME/ThermoSolveDP
+  - A website:                             https://USERNAME.github.io/ThermoSolveDP/
+  - Ready-made downloads, built automatically by GitHub for every release:
+      ThermoSolveDP-macOS-AppleSilicon.zip, ThermoSolveDP-macOS-Intel.zip,
+      ThermoSolveDP-Windows.zip and ThermoSolveDP-source.zip
+  - Automatic tests every time you upload a change, and an "Issues" page
+    where users can report problems.
+
+USERNAME below means the GitHub username you choose in Step 1.
+Everything is done with the mouse; no command line is needed.
+Time needed: about 30 minutes, plus about 20 minutes of waiting while GitHub
+builds the apps for the first time.
+
+
+-------------------------------------------------------------------------------
+STEP 1 - Create a GitHub account
+-------------------------------------------------------------------------------
+
+  1. Go to https://github.com/signup
+  2. Enter your email, a password and a username. The username becomes part
+     of the website address, for example "deoras" gives
+     https://deoras.github.io/ThermoSolveDP/
+  3. Confirm your email address with the code GitHub sends you.
+  4. Choose the Free plan.
+
+
+-------------------------------------------------------------------------------
+STEP 2 - Install GitHub Desktop
+-------------------------------------------------------------------------------
+
+  GitHub Desktop is GitHub's free app for uploading and updating projects.
+  It also uploads the hidden files (.github, .gitignore) that a web-browser
+  upload would miss.
+
+  1. Download it from https://desktop.github.com and install it.
+       Mac:     open the zip and drag GitHub Desktop into Applications.
+       Windows: run the installer.
+  2. Open GitHub Desktop and click "Sign in to GitHub.com". Sign in in the
+     browser window that opens, then allow it to return to GitHub Desktop.
+  3. On the "Configure Git" screen, keep your name and email, and click
+     Finish.
+
+
+-------------------------------------------------------------------------------
+STEP 3 - Put the project folder in place
+-------------------------------------------------------------------------------
+
+  1. Unzip ThermoSolveDP.zip (this version, which contains the website and
+     the build files) into a folder you will keep. For example:
+       Mac:     Documents/ThermoSolveDP
+       Windows: Documents\ThermoSolveDP
+  2. If that folder has a hidden ".venv" folder from running the program,
+     that is fine. It is excluded automatically (by the .gitignore file).
+
+
+-------------------------------------------------------------------------------
+STEP 4 - Create the repository and upload
+-------------------------------------------------------------------------------
+
+  1. In GitHub Desktop choose  File > Add Local Repository...
+  2. Click "Choose..." and select the ThermoSolveDP folder.
+  3. GitHub Desktop says the folder is not a Git repository yet. Click the
+     link "create a repository".
+  4. In the "Create a repository" window:
+       Name:          ThermoSolveDP
+       Description:   Thermodynamic process simulator built on CoolProp
+       Git ignore:    None      (the project already has one)
+       License:       None      (the project already has the MIT LICENSE)
+     Click "Create repository".
+  5. Click the blue "Publish repository" button at the top.
+  6. In the window that opens, UNTICK "Keep this code private". The free
+     website (GitHub Pages) needs a public repository.
+     Click "Publish repository".
+  7. Wait until the upload finishes, then choose
+     Repository > View on GitHub. Your project page opens in the browser and
+     shows the README.
+
+
+-------------------------------------------------------------------------------
+STEP 5 - Turn on the website
+-------------------------------------------------------------------------------
+
+  1. On your project page on github.com, click "Settings" (top right of the
+     project's menu bar).
+  2. In the left-hand list click "Pages".
+  3. Under "Build and deployment":
+       Source:  Deploy from a branch
+       Branch:  main      Folder:  /docs
+     Click Save.
+  4. Wait 1-2 minutes and refresh the page. A box appears saying
+     "Your site is live at https://USERNAME.github.io/ThermoSolveDP/".
+     Click "Visit site".
+  5. Recommended: go back to the project's main page, click the gear icon
+     next to "About" (right-hand side), tick "Use your GitHub Pages
+     website", and click "Save changes". The website link then shows on the
+     project page.
+
+  The download buttons on the website only work after the first release
+  (Step 7).
+
+
+-------------------------------------------------------------------------------
+STEP 6 - Check that the automatic tests pass
+-------------------------------------------------------------------------------
+
+  1. On your project page click the "Actions" tab.
+  2. A run called "Tests" started when you uploaded. Wait about 3 minutes.
+     A green tick means all tests passed.
+  3. If GitHub asks you to enable workflows, click the green button to
+     enable them.
+
+
+-------------------------------------------------------------------------------
+STEP 7 - Publish your first release (this builds the downloads)
+-------------------------------------------------------------------------------
+
+  1. On the project page, click "Releases" on the right-hand side
+     (or "Create a new release").
+  2. Click "Draft a new release".
+  3. Click "Choose a tag", type   v0.2.0   and click "Create new tag: v0.2.0
+     on publish".
+  4. Release title:   ThermoSolveDP 0.2.0
+  5. Describe the release, for example:
+       First public release. Includes compressor, pump, expander, JT valve,
+       heater, cooler, heat exchanger, flash, reactor/combustor, mixer and
+       splitter blocks; CoolProp, Peng-Robinson and SRK fluid packages; and
+       CSV export.
+  6. Click "Publish release".
+  7. Click the "Actions" tab. A run called "Build release downloads" is now
+     building four files. It takes about 15-25 minutes and builds the Mac
+     (Apple Silicon and Intel) and Windows apps. Each app is tested by
+     solving all six examples before it is uploaded.
+  8. When all jobs show a green tick, open the release again. Under "Assets"
+     you will find:
+       ThermoSolveDP-macOS-AppleSilicon.zip
+       ThermoSolveDP-macOS-Intel.zip
+       ThermoSolveDP-Windows.zip
+       ThermoSolveDP-source.zip
+     The download buttons on your website now work. They always point at
+     the newest release.
+  9. Test them yourself: download the Mac file on your Mac, and ask someone
+     with Windows to try the Windows file.
+
+
+-------------------------------------------------------------------------------
+STEP 8 - Publishing an update later
+-------------------------------------------------------------------------------
+
+  When you change the program, or receive an updated version:
+
+  1. Copy the new files INTO your existing ThermoSolveDP folder, replacing
+     the old files. Do not delete or replace the folder itself: it contains
+     a hidden ".git" folder that holds the project history.
+  2. Open GitHub Desktop. The changed files are listed on the left.
+  3. At the bottom left, type a short summary (for example "Add pump
+     curves") and click "Commit to main".
+  4. Click "Push origin" at the top. The tests run again automatically.
+  5. To give users the new version, publish a new release as in Step 7 with
+     the next version number, for example v0.2.1 (small fixes) or v0.3.0
+     (new features). Also update the number in thermosolvedp/__init__.py
+     (__version__ = "0.3.0") so the About box matches.
+
+
+-------------------------------------------------------------------------------
+TROUBLESHOOTING
+-------------------------------------------------------------------------------
+
+  The website shows "404 There isn't a GitHub Pages site here"
+      Check Step 5: the branch must be "main" and the folder "/docs". After
+      saving, wait a few minutes. The address is case-sensitive:
+      .../ThermoSolveDP/
+
+  A build in "Build release downloads" failed (red cross)
+      Click the run, then the red job, then the red step to see the error.
+      Copy the last 30 or so lines and send them for a fix. You can re-run a
+      failed build with the "Re-run failed jobs" button once it is fixed.
+
+  The build worked, but the files did not appear under the release
+  ("Resource not accessible by integration")
+      Settings > Actions > General > Workflow permissions: choose
+      "Read and write permissions" and click Save. Then open the failed run
+      and click "Re-run all jobs".
+
+  The Intel Mac build waits for a long time before starting
+      GitHub has fewer Intel Mac machines. It usually starts within minutes.
+      GitHub plans to keep them until autumn 2027; after that the Intel
+      build can be removed from .github/workflows/release.yml.
+
+  I want to try a build without publishing a release
+      Actions tab > "Build release downloads" > "Run workflow". The files
+      are then attached to the run (scroll down to "Artifacts") for 14 days,
+      instead of to a release.
+
+  GitHub Desktop does not show my changes
+      Make sure you copied the files into the folder that GitHub Desktop
+      shows as "Current repository" (top left), not into a second copy.
+
+  Using only the web browser instead of GitHub Desktop
+      Possible, but more work: create an empty public repository on
+      github.com, then use "Add file > Upload files" and drag in the
+      contents of the folder. Your file manager hides the ".github" folder
+      and ".gitignore", so add each workflow file separately with
+      "Add file > Create new file". Type the name
+      .github/workflows/release.yml, paste the file's contents, and click
+      "Commit changes"; then do the same for
+      .github/workflows/tests.yml.
+
+===============================================================================

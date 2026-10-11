@@ -1,0 +1,4 @@
+CoolProp>=8.0,<9
+PySide6-Essentials>=6.6
+matplotlib>=3.8
+numpy>=1.26

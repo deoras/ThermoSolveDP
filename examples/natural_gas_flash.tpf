@@ -1,0 +1,185 @@
+{
+  "app": "ThermoSolveDP",
+  "version": 1,
+  "settings": {
+    "max_iter": 200,
+    "tol": 1e-06,
+    "method": "Broyden",
+    "property_method": "HEOS",
+    "kij": {}
+  },
+  "units": {},
+  "next_id": 12,
+  "blocks": [
+    {
+      "uid": "b1",
+      "type": "feed",
+      "name": "Natural gas",
+      "values": {
+        "fluid": "Methane[0.85]&Ethane[0.10]&Propane[0.05]",
+        "spec": "Temperature & pressure",
+        "T": 298.15,
+        "P": 6000000.0,
+        "Q": 1.0,
+        "m": 1.0
+      },
+      "layout": {
+        "x": 0,
+        "y": 105.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b2",
+      "type": "cooler",
+      "name": "Chiller",
+      "values": {
+        "spec": "Outlet temperature",
+        "T_out": 238.14999999999998,
+        "duty": 100000.0,
+        "Q_out": 0.0,
+        "dT": 10.0,
+        "dP": 0.0
+      },
+      "layout": {
+        "x": 170,
+        "y": 94.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b3",
+      "type": "valve",
+      "name": "JT valve",
+      "values": {
+        "spec": "Outlet pressure",
+        "P_out": 2500000.0,
+        "dP": 100000.0
+      },
+      "layout": {
+        "x": 340,
+        "y": 105.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b4",
+      "type": "flash",
+      "name": "Cold separator",
+      "values": {
+        "spec": "Adiabatic",
+        "T": 298.15,
+        "dP": 0.0
+      },
+      "layout": {
+        "x": 500,
+        "y": 78.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b5",
+      "type": "product",
+      "name": "Lean gas",
+      "values": {},
+      "layout": {
+        "x": 640,
+        "y": 15.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b6",
+      "type": "product",
+      "name": "NGL",
+      "values": {},
+      "layout": {
+        "x": 640,
+        "y": 195.0,
+        "flip": false
+      }
+    }
+  ],
+  "streams": [
+    {
+      "uid": "s7",
+      "name": "1",
+      "src": "b1",
+      "src_port": "out",
+      "dst": "b2",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s8",
+      "name": "2",
+      "src": "b2",
+      "src_port": "out",
+      "dst": "b3",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s9",
+      "name": "3",
+      "src": "b3",
+      "src_port": "out",
+      "dst": "b4",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s10",
+      "name": "Gas",
+      "src": "b4",
+      "src_port": "vapor",
+      "dst": "b5",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s11",
+      "name": "Liquid",
+      "src": "b4",
+      "src_port": "liquid",
+      "dst": "b6",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    }
+  ]
+}

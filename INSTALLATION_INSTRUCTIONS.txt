@@ -1,0 +1,306 @@
+===============================================================================
+ ThermoSolveDP - INSTALLATION INSTRUCTIONS (macOS and Windows)
+ Created by Deoras Prabhudharwadkar
+===============================================================================
+
+QUICKEST WAY: READY-MADE APPS (no Python needed)
+  If the project website or its GitHub Releases page offers a ready-made
+  download for your computer, use that and skip the rest of this file:
+    Mac:     download ThermoSolveDP-macOS-AppleSilicon.zip (M1-M4) or
+             ThermoSolveDP-macOS-Intel.zip, double-click it, and drag
+             ThermoSolveDP.app into Applications. The first time, macOS says
+             it "could not verify" the app: click Done, open System Settings
+             > Privacy & Security, and click Open Anyway.
+    Windows: download ThermoSolveDP-Windows.zip, right-click > Extract All,
+             and run ThermoSolveDP.exe in the extracted ThermoSolveDP folder
+             (keep the folder together). If "Windows protected your PC"
+             appears, click More info, then Run anyway.
+  The rest of this file covers installing from the source package.
+
+Contents
+  1. Prerequisites (both platforms)
+  2. macOS installation
+  3. Windows installation
+  4. Checking that it works
+  5. Updating to a new version
+  6. Uninstalling
+  7. Troubleshooting
+
+
+-------------------------------------------------------------------------------
+1. PREREQUISITES (BOTH PLATFORMS)
+-------------------------------------------------------------------------------
+
+  Computer
+    - macOS 11 (Big Sur) or later, Apple Silicon (M1-M4) or Intel, or
+    - Windows 10 or 11, 64-bit.
+    - About 1.5 GB of free disk space. The program uses about 500 MB, and the
+      optional standalone app adds another 250-400 MB.
+    - An internet connection for the first setup only. It downloads CoolProp,
+      Qt and matplotlib.
+
+  Python
+    - Python 3.12 or 3.13 from python.org (recommended). Versions 3.10 and 3.11
+      also work on Windows.
+    - Do NOT use the "python3" that comes with macOS (usually 3.9). It is too
+      old.
+    - You only need to install Python once. The steps below show how.
+
+  The ThermoSolveDP files
+    - ThermoSolveDP.zip, unzipped into a folder that you keep, for example
+      Documents/ThermoSolveDP.
+    - Keep the whole folder together. Do not run the program from inside the
+      zip file.
+
+
+-------------------------------------------------------------------------------
+2. macOS INSTALLATION
+-------------------------------------------------------------------------------
+
+STEP 1 - Install Python (one time only)
+
+  1. Go to https://www.python.org/downloads/macos/
+  2. Download the latest "Python 3.12.x" (or 3.13.x) "macOS 64-bit universal2
+     installer". It is a .pkg file.
+  3. Open the .pkg file and click Continue / Agree / Install, accepting the
+     defaults.
+  4. When the installer finishes, a Finder window opens. You can close it.
+
+STEP 2 - Check Python
+
+  1. Open Terminal. Press Cmd + Space, type Terminal, and press Return.
+  2. Type the following and press Return:
+
+         python3 --version
+
+  3. It should print "Python 3.12.x" or "Python 3.13.x".
+       - If it prints 3.9 or older, close Terminal, open a new Terminal window
+         and try again.
+       - If macOS offers to install "command line developer tools", click
+         Cancel. That would install the old Python 3.9. Install Python from
+         python.org (Step 1) instead.
+
+STEP 3 - Unzip ThermoSolveDP
+
+  1. Double-click ThermoSolveDP.zip in your Downloads folder. This creates a
+     folder called ThermoSolveDP.
+  2. Move the ThermoSolveDP folder to a permanent place, for example your
+     Documents folder.
+
+STEP 4 - First launch (sets everything up, 1-3 minutes)
+
+  macOS blocks scripts downloaded from the internet. Double-clicking
+  run_mac.command therefore shows: "Apple could not verify 'run_mac.command'
+  is free of malware...". Click "Done" (NOT "Move to Trash") and use this
+  method instead:
+
+  1. Open Terminal.
+  2. Type   bash   followed by a space. Do not press Return yet.
+  3. Drag the file run_mac.command from the ThermoSolveDP folder into the
+     Terminal window. Its full path appears after "bash ".
+  4. Press Return.
+
+  The first run creates a private Python environment (a hidden ".venv"
+  folder inside ThermoSolveDP) and installs the required packages. When it
+  finishes, the ThermoSolveDP window opens.
+
+STEP 5 - Remove the security warning permanently (recommended)
+
+  So that double-clicking run_mac.command works from now on:
+
+  1. In Terminal, type   xattr -dr com.apple.quarantine   followed by a space.
+  2. Drag the whole ThermoSolveDP folder into the Terminal window.
+  3. Press Return.
+
+  Alternative: after the warning appears, open System Settings > Privacy &
+  Security, scroll to "Security", and click "Open Anyway" next to
+  run_mac.command. Then confirm with your password or Touch ID.
+
+STEP 6 - Everyday launching (option A: launcher script)
+
+  - Double-click run_mac.command in the ThermoSolveDP folder.
+  - A Terminal window opens, and ThermoSolveDP appears a few seconds later.
+  - Keep that Terminal window open while you work. Closing it closes
+    ThermoSolveDP.
+  - Shortcuts:
+      Desktop: right-click run_mac.command > Make Alias, then drag the alias
+               to the Desktop.
+      Dock:    drag run_mac.command to the right-hand side of the Dock.
+
+STEP 7 - Make a real Mac app (option B, recommended, one time, 3-5 minutes)
+
+  This creates ThermoSolveDP.app. It has its own icon, opens without a
+  Terminal window, appears in Applications, Launchpad and Spotlight, and
+  opens .tpf flowsheet files when you double-click them.
+
+  1. Open Terminal.
+  2. Type   bash   followed by a space.
+  3. Drag build_mac_app.command from the ThermoSolveDP folder into the
+     Terminal window and press Return.
+  4. Wait 3-5 minutes. At the end the script tests the app by solving all the
+     built-in examples. It must print:
+
+         SELFTEST PASSED
+
+     A Finder window then opens showing ThermoSolveDP.app.
+  5. Drag ThermoSolveDP.app into your Applications folder.
+  6. From now on, open ThermoSolveDP from Applications, Launchpad or
+     Spotlight (Cmd + Space, type "Thermo").
+     To keep it in the Dock: while it is running, right-click its Dock icon >
+     Options > Keep in Dock.
+
+  Keep the ThermoSolveDP folder anyway. You need it to rebuild the app when
+  you install an update.
+
+
+-------------------------------------------------------------------------------
+3. WINDOWS INSTALLATION
+-------------------------------------------------------------------------------
+
+STEP 1 - Install Python (one time only)
+
+  1. Go to https://www.python.org/downloads/windows/
+  2. Download the latest "Python 3.12.x" (or 3.13.x) "Windows installer
+     (64-bit)".
+  3. Run the installer. On the FIRST screen:
+       [x] tick  "Add python.exe to PATH"   <-- important
+     Then click "Install Now".
+  4. If the last screen offers "Disable path length limit", click it.
+  5. Click Close.
+
+STEP 2 - Check Python
+
+  1. Open Command Prompt. Press the Windows key, type cmd, and press Enter.
+  2. Type the following and press Enter:
+
+         py -3 --version
+
+  3. It should print "Python 3.12.x" or "Python 3.13.x".
+       - If it says "'py' is not recognized", run the Python installer again
+         and choose "Modify". Make sure "py launcher" and "Add Python to
+         environment variables" are ticked.
+
+STEP 3 - Unzip ThermoSolveDP
+
+  1. Right-click ThermoSolveDP.zip and choose "Extract All...".
+     Do not just double-click the zip and run files from inside it.
+  2. Choose a permanent place, for example C:\Users\<you>\Documents, and click
+     Extract. This creates a ThermoSolveDP folder.
+
+STEP 4 - First launch (sets everything up, 1-3 minutes)
+
+  1. Open the ThermoSolveDP folder.
+  2. Double-click run_windows.bat.
+  3. If Windows shows "Windows protected your PC" (SmartScreen), click
+     "More info" and then "Run anyway".
+  4. A black console window opens and installs the required packages into a
+     private ".venv" folder inside ThermoSolveDP. When it finishes, the
+     ThermoSolveDP window opens.
+
+STEP 5 - Everyday launching (option A: launcher script)
+
+  - Double-click run_windows.bat. ThermoSolveDP opens in a few seconds.
+  - Keep the console window open while you work. Closing it closes
+    ThermoSolveDP.
+  - Desktop shortcut: right-click run_windows.bat > Show more options >
+    Send to > Desktop (create shortcut).
+
+STEP 6 - Make a standalone program (option B, optional, 3-5 minutes)
+
+  This creates ThermoSolveDP.exe, which runs without the console window.
+  Note: this build script has not yet been tested on a Windows PC.
+
+  1. Double-click build_windows_exe.bat in the ThermoSolveDP folder.
+  2. Wait 3-5 minutes. At the end it tests the program and must print:
+
+         SELFTEST PASSED
+
+  3. The program is in the folder  dist\ThermoSolveDP . Run
+     dist\ThermoSolveDP\ThermoSolveDP.exe .
+  4. Keep the whole dist\ThermoSolveDP folder together. You can move that
+     folder anywhere, for example to C:\Program Files, and create a desktop
+     shortcut to ThermoSolveDP.exe (right-click > Send to > Desktop).
+
+
+-------------------------------------------------------------------------------
+4. CHECKING THAT IT WORKS (both platforms)
+-------------------------------------------------------------------------------
+
+  1. In ThermoSolveDP choose  File > Open example > Rankine steam cycle .
+  2. Press Run (or F5).
+  3. All blocks should get a green status dot, and the "Energy summary" tab
+     should show a thermal efficiency of about 0.340 (34 %).
+  4. Press Ctrl + D (Windows) or Cmd + D (Mac) to see the T-s and P-h
+     diagrams.
+
+  Saved flowsheets: use  File > Open  and pick your .tpf file.
+
+
+-------------------------------------------------------------------------------
+5. UPDATING TO A NEW VERSION
+-------------------------------------------------------------------------------
+
+  1. Copy any .tpf flowsheets you saved inside the old ThermoSolveDP folder to
+     a safe place.
+  2. Unzip the new ThermoSolveDP.zip and replace the old folder with it.
+  3. Do the "First launch" step again (macOS Step 4 or Windows Step 4). The
+     packages are set up again the first time, which takes a minute or two.
+     On macOS, also repeat Step 5 to remove the security warning for the new
+     copy.
+  4. If you use the app or exe (option B), build it again and replace the old
+     one in Applications or wherever you keep it.
+
+
+-------------------------------------------------------------------------------
+6. UNINSTALLING
+-------------------------------------------------------------------------------
+
+  - Delete the ThermoSolveDP folder. This also removes its private .venv
+    environment.
+  - macOS: also drag ThermoSolveDP.app from Applications to the Trash, if you
+    built it.
+  - Windows: also delete the dist\ThermoSolveDP folder or wherever you moved
+    it, if you built it.
+  - Python itself can stay, or can be removed like any other program.
+
+
+-------------------------------------------------------------------------------
+7. TROUBLESHOOTING
+-------------------------------------------------------------------------------
+
+  "Apple could not verify ... is free of malware" (macOS)
+      Click "Done". Run the script with  bash  as in macOS Step 4, then
+      remove the warning permanently as in macOS Step 5.
+
+  "Permission denied" or "could not be executed" (macOS)
+      In Terminal, type   chmod +x   followed by a space, drag
+      run_mac.command into the window, and press Return.
+
+  "No matching distribution found for CoolProp"
+      Your Python version is too old or too new. Install Python 3.12 from
+      python.org, then delete the hidden ".venv" folder inside ThermoSolveDP
+      and launch again.
+        - macOS: in Finder, press Cmd + Shift + . (period) to show hidden
+          files.
+        - Windows: in File Explorer, choose View > Show > Hidden items.
+
+  The first launch stopped partway (for example, the internet dropped)
+      Delete the ".venv" folder inside ThermoSolveDP (see above for showing
+      hidden files) and launch again.
+
+  "'py' is not recognized" / "python3: command not found"
+      Python is not installed or not on the PATH. Repeat Step 1 for your
+      platform. On Windows, make sure "Add python.exe to PATH" is ticked.
+
+  Windows SmartScreen: "Windows protected your PC"
+      Click "More info", then "Run anyway".
+
+  The app build stops with an error instead of "SELFTEST PASSED"
+      Copy the last 20 or so lines from the Terminal or console window and
+      send them to the developer.
+
+  Anything else
+      Save the flowsheet (File > Save) and send the .tpf file, together with
+      the text of the "Messages" tab (click in it, select all, copy).
+
+===============================================================================

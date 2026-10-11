@@ -1,0 +1,43 @@
+ThermoSolveDP - third-party software
+====================================
+
+ThermoSolveDP itself is released under the MIT License (see LICENSE).
+It uses the following open-source software. The ready-made Mac and Windows
+downloads include copies of these libraries; the source package downloads
+them during installation.
+
+Library            Licence                          Project page
+-----------------  -------------------------------  ------------------------------------------
+CoolProp           MIT                              http://www.coolprop.org
+Qt 6 / PySide6     GNU LGPL v3                      https://www.qt.io/qt-for-python
+matplotlib         Matplotlib License (PSF-based)   https://matplotlib.org
+NumPy              BSD 3-Clause                     https://numpy.org
+Pillow             MIT-CMU (HPND)                   https://python-pillow.org
+contourpy          BSD 3-Clause                     https://github.com/contourpy/contourpy
+kiwisolver         BSD 3-Clause                     https://github.com/nucleic/kiwi
+fonttools          MIT                              https://github.com/fonttools/fonttools
+cycler             BSD 3-Clause                     https://github.com/matplotlib/cycler
+pyparsing          MIT                              https://github.com/pyparsing/pyparsing
+python-dateutil    Apache 2.0 / BSD 3-Clause        https://github.com/dateutil/dateutil
+packaging          Apache 2.0 / BSD 2-Clause        https://github.com/pypa/packaging
+six                MIT                              https://github.com/benjaminp/six
+Python             PSF License                      https://www.python.org
+PyInstaller        GPL 2.0 with bootloader exception (used only to build the apps;
+                   the exception allows distributing the built apps under any licence)
+
+About Qt / PySide6 (LGPL v3)
+----------------------------
+Qt and PySide6 are used unmodified, as separate shared libraries. You may
+replace them with your own build of the same libraries: in the source
+package, install a different PySide6 version into the .venv folder; in the
+ready-made apps, the Qt libraries are ordinary files inside the application
+folder (ThermoSolveDP.app/Contents/Frameworks on macOS, the _internal folder
+on Windows). The full LGPL v3 text is at https://www.gnu.org/licenses/lgpl-3.0.txt
+and the Qt source code is available from https://download.qt.io and
+https://code.qt.io.
+
+Thermodynamic data
+------------------
+Fluid properties are calculated by CoolProp (Bell et al., Ind. Eng. Chem.
+Res. 2014, 53, 2498-2508). Standard enthalpies of formation used by the
+reactor are from the NIST Chemistry WebBook / NIST-JANAF tables.

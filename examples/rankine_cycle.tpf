@@ -1,0 +1,149 @@
+{
+  "app": "ThermoSolveDP",
+  "version": 1,
+  "settings": {
+    "max_iter": 200,
+    "tol": 1e-06,
+    "method": "Broyden",
+    "property_method": "HEOS",
+    "kij": {}
+  },
+  "units": {},
+  "next_id": 9,
+  "blocks": [
+    {
+      "uid": "b1",
+      "type": "pump",
+      "name": "Feed pump",
+      "values": {
+        "spec": "Outlet pressure",
+        "P_out": 10000000.0,
+        "ratio": 10.0,
+        "eta": 0.75
+      },
+      "layout": {
+        "x": 40,
+        "y": 74.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b2",
+      "type": "heater",
+      "name": "Boiler",
+      "values": {
+        "spec": "Outlet temperature",
+        "T_out": 773.15,
+        "duty": 100000.0,
+        "Q_out": 1.0,
+        "dT": 10.0,
+        "dP": 0.0
+      },
+      "layout": {
+        "x": 210,
+        "y": 74.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b3",
+      "type": "expander",
+      "name": "Turbine",
+      "values": {
+        "spec": "Outlet pressure",
+        "P_out": 10000.0,
+        "ratio": 5.0,
+        "eta": 0.85
+      },
+      "layout": {
+        "x": 380,
+        "y": 74.0,
+        "flip": false
+      }
+    },
+    {
+      "uid": "b4",
+      "type": "cooler",
+      "name": "Condenser",
+      "values": {
+        "spec": "Outlet vapor fraction",
+        "T_out": 298.15,
+        "duty": 100000.0,
+        "Q_out": 0.0,
+        "dT": 10.0,
+        "dP": 0.0
+      },
+      "layout": {
+        "x": 550,
+        "y": 74.0,
+        "flip": false
+      }
+    }
+  ],
+  "streams": [
+    {
+      "uid": "s5",
+      "name": "1",
+      "src": "b4",
+      "src_port": "out",
+      "dst": "b1",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": true,
+        "fluid": "Water",
+        "T": 318.15,
+        "P": 10000.0,
+        "m": 10.0
+      }
+    },
+    {
+      "uid": "s6",
+      "name": "2",
+      "src": "b1",
+      "src_port": "out",
+      "dst": "b2",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s7",
+      "name": "3",
+      "src": "b2",
+      "src_port": "out",
+      "dst": "b3",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    },
+    {
+      "uid": "s8",
+      "name": "4",
+      "src": "b3",
+      "src_port": "out",
+      "dst": "b4",
+      "dst_port": "in",
+      "tear": false,
+      "estimate": {
+        "enabled": false,
+        "fluid": "",
+        "T": 298.15,
+        "P": 101325.0,
+        "m": 1.0
+      }
+    }
+  ]
+}
