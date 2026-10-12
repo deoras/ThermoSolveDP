@@ -192,9 +192,15 @@ TROUBLESHOOTING
       build can be removed from .github/workflows/release.yml.
 
   I want to try a build without publishing a release
-      Actions tab > "Build release downloads" > "Run workflow". The files
-      are then attached to the run (scroll down to "Artifacts") for 14 days,
-      instead of to a release.
+      Actions tab > "Build release downloads" > "Run workflow", leave the
+      tag box empty. The files are then attached to the run (scroll down to
+      "Artifacts") for 14 days, instead of to a release.
+
+  Rebuild the files of an existing release (e.g. after fixing the build)
+      Actions tab > "Build release downloads" > "Run workflow", type the
+      release's tag (for example v1.0) in the box, and click the green
+      "Run workflow" button. The new files replace the old ones on that
+      release. (Re-running an old run would use the old build recipe.)
 
   GitHub Desktop does not show my changes
       Make sure you copied the files into the folder that GitHub Desktop

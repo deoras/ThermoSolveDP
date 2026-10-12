@@ -9,7 +9,12 @@ name: Build release downloads
 on:
   release:
     types: [published]
-  workflow_dispatch:        # "Run workflow" button: builds and keeps the files as workflow artifacts
+  workflow_dispatch:        # "Run workflow" button
+    inputs:
+      tag:
+        description: "Attach the files to this existing release tag (e.g. v1.0). Leave empty to only keep them as workflow artifacts."
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -48,19 +53,33 @@ jobs:
 
       - name: Self-test and package (macOS)
         if: runner.os == 'macOS'
+        timeout-minutes: 15
         run: |
           dist/ThermoSolveDP.app/Contents/MacOS/ThermoSolveDP --selftest
           ditto -c -k --sequesterRsrc --keepParent dist/ThermoSolveDP.app "${{ matrix.asset }}"
 
-      - name: Self-test and package (Windows)
+      - name: Self-test (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
+        timeout-minutes: 15
+        env:
+          QT_QPA_PLATFORM: windows       # use the normal Windows display plugin on the build machine
         run: |
-          $p = Start-Process -FilePath "dist\ThermoSolveDP\ThermoSolveDP.exe" -ArgumentList "--selftest" -Wait -PassThru
+          $p = Start-Process -FilePath "dist\ThermoSolveDP\ThermoSolveDP.exe" -ArgumentList "--selftest" -PassThru
+          if (-not $p.WaitForExit(600000)) {
+            Stop-Process -Id $p.Id -Force
+            if (Test-Path "dist\ThermoSolveDP\selftest.log") { Get-Content "dist\ThermoSolveDP\selftest.log" }
+            throw "Self-test did not finish within 10 minutes"
+          }
           Get-Content "dist\ThermoSolveDP\selftest.log"
           Remove-Item "dist\ThermoSolveDP\selftest.log"
           if ($p.ExitCode -ne 0) { throw "Self-test failed (exit code $($p.ExitCode))" }
-          Compress-Archive -Path "dist\ThermoSolveDP" -DestinationPath "${{ matrix.asset }}"
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        timeout-minutes: 15
+        run: 7z a -tzip -mx=5 "${{ matrix.asset }}" ".\dist\ThermoSolveDP"   # 7-Zip is much faster than Compress-Archive
 
       - name: Keep the file with this workflow run
         uses: actions/upload-artifact@v4
@@ -70,11 +89,12 @@ jobs:
           retention-days: 14
 
       - name: Attach to the release
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' || inputs.tag != ''
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" "${{ matrix.asset }}" --clobber
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: gh release upload "$TAG" "${{ matrix.asset }}" --clobber
 
   source:
     name: Source package
@@ -94,7 +114,8 @@ jobs:
           path: ThermoSolveDP-source.zip
           retention-days: 14
       - name: Attach to the release
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' || inputs.tag != ''
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" ThermoSolveDP-source.zip --clobber --repo "${{ github.repository }}"
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: gh release upload "$TAG" ThermoSolveDP-source.zip --clobber --repo "${{ github.repository }}"
