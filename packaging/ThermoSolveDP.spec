@@ -11,6 +11,18 @@ sys.path.insert(0, ROOT)
 from thermosolvedp import __version__  # noqa: E402
 
 datas, binaries, hidden = collect_all("CoolProp")
+
+# Windows wheels of CoolProp (made with "delvewheel") keep the DLLs they need, e.g. the Microsoft
+# C++ runtime msvcp140-<hash>.dll, in a folder NEXT TO the package: site-packages/coolprop.libs.
+# CoolProp's __init__ adds "<package>/../coolprop.libs" to the DLL search path at import time,
+# so the folder must be bundled under the same name beside the CoolProp package.
+import importlib.util
+from pathlib import Path
+
+_cp_dir = Path(importlib.util.find_spec("CoolProp").origin).parent
+for _libs in sorted(_cp_dir.parent.glob("*.libs")):
+    if _libs.name.lower() == "coolprop.libs":
+        binaries += [(str(f), _libs.name) for f in _libs.iterdir() if f.is_file()]
 datas += [(os.path.join(ROOT, "examples"), "examples")]
 datas += [(os.path.join(ROOT, f), ".") for f in ("README.txt", "LICENSE", "THIRD_PARTY_NOTICES.txt",
                                                  "INSTALLATION_INSTRUCTIONS.txt")
